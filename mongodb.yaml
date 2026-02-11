@@ -27,7 +27,7 @@
       replace: "0.0.0.0"
 
   - name: "restart services"
-    ansible.builtin.serivce:
+    ansible.builtin.service:
       name: mongod
       state: restarted
       enabled: true
