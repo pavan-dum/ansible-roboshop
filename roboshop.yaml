@@ -5,7 +5,7 @@
   vars:
     sg_id: sg-0585ee7d9ca48e3bf
     ami_id: ami-0220d79f3f480ecf5
-    domain_name: daws88s.online
+    domain_name: dpavan.online
     env: dev
     action: create
     instances:
