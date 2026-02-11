@@ -26,7 +26,7 @@
       regexp: "127.0.0.1"
       replace: "0.0.0.0"
 
-  - name: restart services
+  - name: "restart services"
     ansible.builtin.serivce:
       name: mongod
       state: restarted
