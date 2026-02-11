@@ -55,7 +55,7 @@
       dest: /etc/systemd/system/catalogue.service
 
   - name: Daemon reload system service 
-    ansible.duiltin.systemd_service:
+    ansible.builtin.systemd_service:
       daemon_reload: true
 
   - name: copying mongo repo
