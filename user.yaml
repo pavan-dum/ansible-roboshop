@@ -9,8 +9,7 @@
   - name: Install nodejs
     ansible.builtin.dnf:
       name: nodejs
-      state: started
-      enabled: true
+      state: present
     
   - name: Creating system user
     ansible.builtin.user:
