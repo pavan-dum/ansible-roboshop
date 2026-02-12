@@ -32,7 +32,7 @@
 
   - name: deleting defaultzip code
     ansible.builtin.file:
-      src: /tmp/cart.zip
+      path: /tmp/cart.zip
       state: absent
  
 
