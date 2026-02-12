@@ -33,15 +33,13 @@
   - name: deleting defaultzip code
     ansible.builtin.file:
       src: /tmp/cart.zip
-      dest: absent
-  
+      state: absent
+ 
+
   - name: Downloading zip code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
       dest: /tmp/cart.zip
-
-
- 
 
   - name: unzipping zip code
     ansible.builtin.unarchive:
