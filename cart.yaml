@@ -28,6 +28,12 @@
     ansible.builtin.file:
       path: /app
       state: directory
+
+
+  - name: deleting defaultzip code
+    ansible.builtin.file:
+      src: /tmp/cart.zip
+      dest: absent
   
   - name: Downloading zip code
     ansible.builtin.get_url:
@@ -35,10 +41,7 @@
       dest: /tmp/cart.zip
 
 
-  - name: deleting defaultzip code
-    ansible.builtin.file:
-      src: /tmp/cart.zip
-      dest: absent
+ 
 
   - name: unzipping zip code
     ansible.builtin.unarchive:
