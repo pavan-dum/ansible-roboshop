@@ -4,7 +4,7 @@
 
   tasks:
   - name: Enabling nodejs:20 version
-    ansible.builtin.commmand: dnf module enable nodejs:20 -y 
+    ansible.builtin.commmand: dnf module enable nodejs:20 -y
 
   - name: Installing nodejs
     ansible.builtin.dnf:
