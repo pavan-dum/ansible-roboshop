@@ -13,11 +13,12 @@
       enabled: true
     
   - name: Creating system user
-    user: roboshop
-    system: true
-    home: /app
-    shell: /sbin/nologin
-    comment: roboshop system user
+    ansible.builtin.user:
+      user: roboshop
+      system: true
+      home: /app
+      shell: /sbin/nologin
+      comment: roboshop system user
 
   - name:  Deleting default directory
     ansible.builtin.file:
