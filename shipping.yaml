@@ -76,6 +76,12 @@
       - cryptography
       - PyMySQL
 
+  - name: Install mysql client
+    ansible.builtin.dnf:
+      name: mysql
+      state: present
+
+
 
   - name: import shipping data
     community.mysql.mysql_db:
