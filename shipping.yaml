@@ -5,8 +5,8 @@
   tasks:
   - name: Install maven
     ansible.builtin.dnf:
-    name: maven
-    state: present
+      name: maven
+      state: present
 
   - name: creating system user
     ansible.builtin.user:
