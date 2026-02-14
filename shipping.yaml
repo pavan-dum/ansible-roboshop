@@ -17,7 +17,7 @@
       commment: "roboshop system user"
 
   - name: deleting default app directory
-    ansible.builting.file:
+    ansible.builtin.file:
       path: /app
       state: absent
 
