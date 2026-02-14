@@ -1,105 +1,91 @@
-- name: configure shipping module
+- name: configure shipping server
   hosts: shipping
   become: yes
-
   tasks:
-  - name: Install maven
+  - name: install maven and mysql
     ansible.builtin.dnf:
-      name: maven
+      name: "{{ item }}"
       state: present
+    loop:
+    - maven
+    - mysql
 
-  - name: creating system user
+  - name: create system user roboshop
     ansible.builtin.user:
       name: roboshop
       system: true
-      shell: /sbin/nologin
       home: /app
-      comment: "roboshop system user"
-
-  - name: deleting default app directory
+      shell: /sbin/nologin
+      comment: "Roboshop system user"
+  
+  - name: delete app directory
     ansible.builtin.file:
       path: /app
       state: absent
 
-  - name: creating app directory
+  - name: create app directory
     ansible.builtin.file:
       path: /app
       state: directory
 
-  - name: deleting default zip code
+  - name: delete shipping zip file
     ansible.builtin.file:
       path: /tmp/shipping.zip
       state: absent
 
-  - name: downloading ahipping code
+  - name: download shipping
     ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+      url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
       dest: /tmp/shipping.zip
 
-  - name: unzip downloaded code
+  - name: unarchieve shipping
     ansible.builtin.unarchive:
       src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
-
-
-  - name: installing dependencies
+  
+  - name: install dependencies
     ansible.builtin.command: mvn clean package
     args:
-     chdir: /app
+      chdir: /app
 
-  - name: inatalling dependencies
+  - name: install dependencies
     ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
     args:
       chdir: /app
 
-  - name: copying shipping service
+  - name: create systemctl service
     ansible.builtin.template:
-       src: shipping.service
-       dest: /etc/systemd/system/shipping.service
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
 
-  - name: service daemon reload
+  - name: daemon reload
     ansible.builtin.systemd_service:
-       daemon_reload: true
-
-  - name: enable and starting service
-    ansible.builtin.service:
-       name: shipping
-       state: started
-       enabled: true
+      daemon_reload: true
 
   - name: install dependencie
     ansible.builtin.pip:
       name: "{{ item }}"
       executable: pip3.9
     loop:
-      - cryptography
-      - PyMySQL
-
-  - name: Install mysql client
-    ansible.builtin.dnf:
-      name: mysql
-      state: present
-
-
+    - cryptography
+    - PyMySQL
 
   - name: import shipping data
     community.mysql.mysql_db:
-        state: import
-        name: all
-        login_host: "{{ mysql_host }}"
-        login_user: root
-        login_password: RoboShop@1
-        target: "{{ item }}"
+      state: import
+      name: all
+      login_host: "{{ mysql_host }}"
+      login_user: root
+      login_password: RoboShop@1
+      target: "{{ item }}"
     loop:
-        - /app/db/schema.sql
-        - /app/db/app-user.sql 
-        - /app/db/master-data.sql
+    - /app/db/schema.sql
+    - /app/db/app-user.sql 
+    - /app/db/master-data.sql
 
   - name: start and enable shipping
     ansible.builtin.service:
       name: shipping
       state: restarted
       enabled: yes
-
-  
