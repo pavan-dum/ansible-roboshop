@@ -14,7 +14,7 @@
       system: true
       shell: /sbin/nologin
       home: /app
-      commment: "roboshop system user"
+      comment: "roboshop system user"
 
   - name: deleting default app directory
     ansible.builtin.file:
